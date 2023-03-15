@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     submitForm.addEventListener('submit', function(event) {
         event.preventDefault();
         addTodo();
+        submitForm.reset()
     })
     if (isStorageExist()) {
         loadDataFromStorage();
@@ -189,17 +190,22 @@ function loadDataFromStorage() {
     document.dispatchEvent(new Event(RENDER_EVENT));
 }
 
-document.getElementById("search").addEventListener('click', () => {
+document.getElementById("search-button").addEventListener('click', () => {
     //inisialisasi
     let searchInput = document.getElementById("search-input").value;
-    let elements = document.querySelectorAll("title");
-    let list = document.querySelectorAll(".form");
+    if(searchInput.length == 0){
+        return;
+    }
+    const serializedData = localStorage.getItem(STORAGE_KEY);
+    let data = JSON.parse(serializedData);
 
-    elements.forEach((element, index) => {
-        if (element.innerText.includes(searchInput.toUpperCase())) {
-            list[index].classList.remove("hide");
-        } else {
-            list[index].classList.add("hide");
+    data.forEach(item => {
+        let itemElement = document.getElementById(`todo-${item.id}`)
+        if(item.title.includes(searchInput)){
+            itemElement.style.display = "block"
         }
-    });
+        else{
+            itemElement.style.display = "none"
+        }
+    })
 });
