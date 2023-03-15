@@ -1,3 +1,3 @@
 # # SubmissionBookshelfDicoding
 
-- Filter search doesn't working yet.
+- Filter search doesn't working yet. (Solved)
